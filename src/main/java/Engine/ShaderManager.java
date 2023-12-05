@@ -1,5 +1,6 @@
 package Engine;
 
+import Engine.entity.Material;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
@@ -30,6 +31,15 @@ public class ShaderManager {
             throw new Exception("could not find uniform "+ uniformName);
         uniforms.put(uniformName,uniformLocation);
     }
+
+    public void createMaterialUniform(String uniformName) throws Exception{
+        createUniform(uniformName+".ambient");
+        createUniform(uniformName+".diffuse");
+        createUniform(uniformName+".specular");
+        createUniform(uniformName+".hasTexture");
+        createUniform(uniformName+".reflectance");
+    }
+
     public void setUniform(String uniformName, Matrix4f value){
         try(MemoryStack stack = MemoryStack.stackPush()){
             GL20.glUniformMatrix4fv(uniforms.get(uniformName),false,
@@ -58,6 +68,14 @@ public class ShaderManager {
     public void setUniform(String uniformName, float value){
         GL20.glUniform1f(uniforms.get(uniformName),value);
 
+    }
+
+    public void setUniform(String uniformName, Material material){
+        setUniform(uniformName+".ambient", material.getAmbientColour());
+        setUniform(uniformName+".diffuse", material.getDiffuseColour());
+        setUniform(uniformName+".specular", material.getSpecularColour());
+        setUniform(uniformName+".hasTexture", material.hasTexture());
+        setUniform(uniformName+".reflectance", material.getReflectance());
     }
 
 
