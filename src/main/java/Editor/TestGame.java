@@ -35,26 +35,61 @@ public class TestGame implements ILogic {
         renderer.init();
 
         float[] vertices = new float[] {
-                -0.5f,  0.5f, -0.5f,
+                -0.5f, 0.5f, 0.5f,
+                -0.5f, -0.5f, 0.5f,
+                0.5f, -0.5f, 0.5f,
+                0.5f, 0.5f, 0.5f,
+                -0.5f, 0.5f, -0.5f,
+                0.5f, 0.5f, -0.5f,
                 -0.5f, -0.5f, -0.5f,
                 0.5f, -0.5f, -0.5f,
-                0.5f,  0.5f, -0.5f
-
+                -0.5f, 0.5f, -0.5f,
+                0.5f, 0.5f, -0.5f,
+                -0.5f, 0.5f, 0.5f,
+                0.5f, 0.5f, 0.5f,
+                0.5f, 0.5f, 0.5f,
+                0.5f, -0.5f, 0.5f,
+                -0.5f, 0.5f, 0.5f,
+                -0.5f, -0.5f, 0.5f,
+                -0.5f, -0.5f, -0.5f,
+                0.5f, -0.5f, -0.5f,
+                -0.5f, -0.5f, 0.5f,
+                0.5f, -0.5f, 0.5f,
         };
         float[] textCoords = new float[]{
-                0f,1f,
-                0f,0f,
-                1f,0f,
-                1f,1f
+                0.0f, 0.0f,
+                0.0f, 0.5f,
+                0.5f, 0.5f,
+                0.5f, 0.0f,
+                0.0f, 0.0f,
+                0.5f, 0.0f,
+                0.0f, 0.5f,
+                0.5f, 0.5f,
+                0.0f, 0.5f,
+                0.5f, 0.5f,
+                0.0f, 1.0f,
+                0.5f, 1.0f,
+                0.0f, 0.0f,
+                0.0f, 0.5f,
+                0.5f, 0.0f,
+                0.5f, 0.5f,
+                0.5f, 0.0f,
+                1.0f, 0.0f,
+                0.5f, 0.5f,
+                1.0f, 0.5f,
         };
         int[] indices = new int[]{
-                0, 1, 2,
-                2, 3, 0
+                0, 1, 3, 3, 1, 2,
+                8, 10, 11, 9, 8, 11,
+                12, 13, 7, 5, 12, 7,
+                14, 15, 6, 4, 14, 6,
+                16, 18, 19, 17, 16, 19,
+                4, 6, 7, 5, 4, 7,
         };
 
         Model model = loader.loadModel(vertices,textCoords,indices);
         model.setTexture(new Texture(loader.loadTexture("textures/grassblock.png")));
-        entity = new Entity(model, new Vector3f(0,0,5), new Vector3f(0,0,0),1);
+        entity = new Entity(model, new Vector3f(0,0,-5), new Vector3f(0,0,0),1);
     }
 
     @Override
@@ -80,7 +115,7 @@ public class TestGame implements ILogic {
     public void update() {
         camera.movePosition(cameraInc.x * CAMERA_MOVE_SPEED,cameraInc.y * CAMERA_MOVE_SPEED,cameraInc.z * CAMERA_MOVE_SPEED);
 
-//        entity.incRotation(0.0f,0.5f,0.1f);
+        entity.incRotation(0.0f,0.5f,0.0f);
     }
 
     @Override
@@ -90,7 +125,7 @@ public class TestGame implements ILogic {
             window.setResize(true);
         }
 
-        window.setClearColour(1.0f,0.0f,0.0f,0.0f);
+        window.setClearColour(0.0f,0.0f,0.0f,0.0f);
         renderer.render(entity,camera);
     }
 
