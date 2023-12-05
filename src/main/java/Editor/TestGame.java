@@ -4,6 +4,8 @@ import Engine.*;
 import Engine.entity.Entity;
 import Engine.entity.Model;
 import Engine.entity.Texture;
+import Engine.utils.Consts;
+import org.joml.Vector2f;
 import org.joml.Vector3f;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL11;
@@ -11,8 +13,6 @@ import org.lwjgl.opengl.GL11;
 
 
 public class TestGame implements ILogic {
-
-    private static final float CAMERA_MOVE_SPEED = 0.05f;
     private final RenderManager renderer;
     private final ObjectLoader loader;
     private final WindowManager window;
@@ -112,8 +112,14 @@ public class TestGame implements ILogic {
     }
 
     @Override
-    public void update() {
-        camera.movePosition(cameraInc.x * CAMERA_MOVE_SPEED,cameraInc.y * CAMERA_MOVE_SPEED,cameraInc.z * CAMERA_MOVE_SPEED);
+    public void update(float interval, MouseInput mouseInput) {
+        camera.movePosition(cameraInc.x * Consts.CAMERA_MOVE_SPEED,cameraInc.y * Consts.CAMERA_MOVE_SPEED,cameraInc.z * Consts.CAMERA_MOVE_SPEED);
+
+        if(mouseInput.isRightButtonPress()){
+            Vector2f rotVec = mouseInput.getDisplayVec();
+            camera.moveRotation(rotVec.x * Consts.MOUSE_SENSITIVITY,rotVec.y * Consts.MOUSE_SENSITIVITY,0);
+            mouseInput.setDisplayVec(0,0);
+        }
 
         entity.incRotation(0.0f,0.5f,0.0f);
     }
